@@ -47,10 +47,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build & Export
-        run: |
-          pnpm run build
-          pnpm run export
+      - name: Build with static export
+        run: pnpm run build
 
       - name: Add .nojekyll file
         run: touch ./out/.nojekyll
