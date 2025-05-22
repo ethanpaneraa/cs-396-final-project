@@ -28,10 +28,10 @@ jobs:
           node-version: "20"
           cache: "pnpm"
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      - name: Enable pnpm via Corepack
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -50,7 +50,6 @@ jobs:
         run: pnpm install
 
       - name: Build & Export
-        # If you're doing an SSG export to ./out, otherwise just `pnpm run build`
         run: |
           pnpm run build
           pnpm run export
