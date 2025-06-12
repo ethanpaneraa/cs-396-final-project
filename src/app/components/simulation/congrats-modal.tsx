@@ -17,7 +17,7 @@ export const CongratsModal: FC<Props> = ({ onProceed }) => (
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="text-2xl font-bold text-center mb-4"
+        className="text-2xl font-bold text-center mb-4 text-black"
       >
         🎉 Congratulations! 🎉
       </motion.h2>
