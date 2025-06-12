@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+interface Metrics {
+  edge_density_reduction: number;
+  contour_area_reduction: number;
+  attack_success: boolean;
+  edge_fraction_clean?: number;
+  edge_fraction_perturbed?: number;
+  fragmentation_increase?: number;
+}
+
 const SimulationForm = () => {
-  const [dataSource, setDataSource] = useState("progressive"); // 'progressive', 'targeted', 'canny_targeted', 'effective'
+  const [dataSource, setDataSource] = useState("progressive");
   type ImageSourceKey = keyof typeof IMAGE_SOURCE_MAP;
 
   const [config, setConfig] = useState<{
@@ -30,7 +39,7 @@ const SimulationForm = () => {
   });
 
   const [currentImages, setCurrentImages] = useState(null);
-  const [metrics, setMetrics] = useState(null);
+  const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [loading, setLoading] = useState(false);
   // const [availableConfigs, setAvailableConfigs] = useState([]);
 
