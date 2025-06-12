@@ -1,8 +1,4 @@
-"use client";
-
-import React, { useEffect, useRef, useState } from "react";
-
-class ASCIIBoxRenderer {
+export class ASCIIBoxRenderer {
   private ctx: CanvasRenderingContext2D;
   private cols: number;
   private rows: number;
@@ -32,6 +28,7 @@ class ASCIIBoxRenderer {
     // Set font once
     this.ctx.font = `${this.charHeight}px Monaco, monospace`;
     this.ctx.textBaseline = "top";
+    this.ctx.fillStyle = "#000"; // text color
   }
 
   render(canvas: HTMLCanvasElement) {
@@ -40,7 +37,8 @@ class ASCIIBoxRenderer {
     const buffer = this.staticBuffer.map((r) => r.slice());
 
     const t = performance.now() * 0.002 * 3;
-    // Example margins then center logic
+
+    // Compute margins & grid
     let marginX = 3;
     let marginY = 2;
     const numX = Math.floor(
@@ -67,8 +65,12 @@ class ASCIIBoxRenderer {
       }
     }
 
-    // Draw buffer to canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Paint background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw text buffer
+    ctx.fillStyle = "#000000";
     for (let y = 0; y < rows; y++) {
       ctx.fillText(buffer[y].join(""), 0, y * charHeight);
     }
@@ -83,27 +85,25 @@ class ASCIIBoxRenderer {
     numX: number
   ) {
     const { baseW, baseH, message } = this;
-
-    // Clear full box area (background)
+    // clear area
     for (let dy = 0; dy < baseH; dy++) {
       for (let dx = 0; dx < baseW; dx++) {
         if (buffer[y + dy]?.[x + dx] !== undefined)
           buffer[y + dy][x + dx] = " ";
       }
     }
-
-    // Draw borders
+    // draw borders
     for (let dx = 0; dx < baseW; dx++) {
-      if (buffer[y]?.[x + dx] !== undefined) buffer[y][x + dx] = "═"; // top
+      if (buffer[y]?.[x + dx] !== undefined) buffer[y][x + dx] = "═";
       if (buffer[y + baseH - 1]?.[x + dx] !== undefined)
-        buffer[y + baseH - 1][x + dx] = "═"; // bottom
+        buffer[y + baseH - 1][x + dx] = "═";
     }
     for (let dy = 0; dy < baseH; dy++) {
-      if (buffer[y + dy]?.[x] !== undefined) buffer[y + dy][x] = "║"; // left
+      if (buffer[y + dy]?.[x] !== undefined) buffer[y + dy][x] = "║";
       if (buffer[y + dy]?.[x + baseW - 1] !== undefined)
-        buffer[y + dy][x + baseW - 1] = "║"; // right
+        buffer[y + dy][x + baseW - 1] = "║";
     }
-    // Corners
+    // corners
     if (buffer[y]?.[x] !== undefined) buffer[y][x] = "╔";
     if (buffer[y]?.[x + baseW - 1] !== undefined)
       buffer[y][x + baseW - 1] = "╗";
@@ -112,7 +112,7 @@ class ASCIIBoxRenderer {
     if (buffer[y + baseH - 1]?.[x + baseW - 1] !== undefined)
       buffer[y + baseH - 1][x + baseW - 1] = "╝";
 
-    // Draw shadow
+    // shadow
     for (let dx = 2; dx < baseW + 2; dx++) {
       if (buffer[y + baseH]?.[x + dx] !== undefined)
         buffer[y + baseH][x + dx] = "░";
@@ -122,7 +122,7 @@ class ASCIIBoxRenderer {
         buffer[y + dy][x + baseW] = "░";
     }
 
-    // Draw content
+    // content
     const ch = message[(i + j * numX) % message.length];
     if (buffer[y + 1]?.[x + 2] !== undefined) buffer[y + 1][x + 2] = `*${ch}`;
     const pos = `pos:${x},${y}`;
@@ -132,46 +132,3 @@ class ASCIIBoxRenderer {
     }
   }
 }
-
-const AsciiBackground: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [dims, setDims] = useState({ width: 0, height: 0 });
-
-  useEffect(() => {
-    const update = () =>
-      setDims({ width: window.innerWidth, height: window.innerHeight });
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas || dims.width === 0) return;
-    canvas.width = dims.width;
-    canvas.height = dims.height;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const renderer = new ASCIIBoxRenderer(ctx, dims.width, dims.height);
-    let rafId: number;
-    const loop = () => {
-      renderer.render(canvas);
-      rafId = requestAnimationFrame(loop);
-    };
-    loop();
-    return () => cancelAnimationFrame(rafId);
-  }, [dims]);
-
-  return (
-    <div className="fixed inset-0 bg-white">
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ imageRendering: "pixelated" }}
-      />
-    </div>
-  );
-};
-
-export default AsciiBackground;
