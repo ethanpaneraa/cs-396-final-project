@@ -1,0 +1,407 @@
+{
+  "stop_sign_standard_hysteresis_threshold": {
+    "source": "stop_sign",
+    "canny_config": "standard",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.49280892280598765,
+    "contour_area_reduction": 0.09533979344638531,
+    "fragmentation_increase": 4.133333333333334,
+    "attack_success": true
+  },
+  "stop_sign_standard_gradient_smoothing": {
+    "source": "stop_sign",
+    "canny_config": "standard",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.017023774581743468,
+    "contour_area_reduction": -0.0001753155680224404,
+    "fragmentation_increase": -0.13333333333333333,
+    "attack_success": false
+  },
+  "stop_sign_standard_non_max_suppression": {
+    "source": "stop_sign",
+    "canny_config": "standard",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.11857939536248899,
+    "contour_area_reduction": 0.0954354201198521,
+    "fragmentation_increase": 1.2,
+    "attack_success": true
+  },
+  "stop_sign_standard_connectivity_breaking": {
+    "source": "stop_sign",
+    "canny_config": "standard",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.01027296742001761,
+    "contour_area_reduction": 0.09554698457223001,
+    "fragmentation_increase": 0.5333333333333333,
+    "attack_success": true
+  },
+  "stop_sign_standard_multi_scale": {
+    "source": "stop_sign",
+    "canny_config": "standard",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.014969181097739948,
+    "contour_area_reduction": -0.00036656891495601173,
+    "fragmentation_increase": -0.2,
+    "attack_success": false
+  },
+  "stop_sign_high_threshold_hysteresis_threshold": {
+    "source": "stop_sign",
+    "canny_config": "high_threshold",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.045687009887487216,
+    "contour_area_reduction": 3.5232357397033434e-05,
+    "fragmentation_increase": 1.6,
+    "attack_success": true
+  },
+  "stop_sign_high_threshold_gradient_smoothing": {
+    "source": "stop_sign",
+    "canny_config": "high_threshold",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.041936583702693486,
+    "contour_area_reduction": 3.5232357397033434e-05,
+    "fragmentation_increase": 0.0,
+    "attack_success": false
+  },
+  "stop_sign_high_threshold_non_max_suppression": {
+    "source": "stop_sign",
+    "canny_config": "high_threshold",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.008864643709512444,
+    "contour_area_reduction": 0.00021139414438220062,
+    "fragmentation_increase": 0.6,
+    "attack_success": true
+  },
+  "stop_sign_high_threshold_connectivity_breaking": {
+    "source": "stop_sign",
+    "canny_config": "high_threshold",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.06273440163654961,
+    "contour_area_reduction": 0.00014092942958813373,
+    "fragmentation_increase": 0.2,
+    "attack_success": false
+  },
+  "stop_sign_high_threshold_multi_scale": {
+    "source": "stop_sign",
+    "canny_config": "high_threshold",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.016365496079099897,
+    "contour_area_reduction": 3.5232357397033434e-05,
+    "fragmentation_increase": -0.2,
+    "attack_success": false
+  },
+  "stop_sign_sensitive_hysteresis_threshold": {
+    "source": "stop_sign",
+    "canny_config": "sensitive",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.4540826316820051,
+    "contour_area_reduction": -0.01084853291038858,
+    "fragmentation_increase": 1.5818181818181818,
+    "attack_success": true
+  },
+  "stop_sign_sensitive_gradient_smoothing": {
+    "source": "stop_sign",
+    "canny_config": "sensitive",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.06598785980027413,
+    "contour_area_reduction": 0.0017763679619349723,
+    "fragmentation_increase": -0.03636363636363636,
+    "attack_success": false
+  },
+  "stop_sign_sensitive_non_max_suppression": {
+    "source": "stop_sign",
+    "canny_config": "sensitive",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.4047385940865479,
+    "contour_area_reduction": 0.09973037272006344,
+    "fragmentation_increase": 1.3272727272727274,
+    "attack_success": true
+  },
+  "stop_sign_sensitive_connectivity_breaking": {
+    "source": "stop_sign",
+    "canny_config": "sensitive",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.003720383786959076,
+    "contour_area_reduction": 0.09977795400475813,
+    "fragmentation_increase": 0.2545454545454545,
+    "attack_success": false
+  },
+  "stop_sign_sensitive_multi_scale": {
+    "source": "stop_sign",
+    "canny_config": "sensitive",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.01899353828079107,
+    "contour_area_reduction": 0.0,
+    "fragmentation_increase": 0.03636363636363636,
+    "attack_success": false
+  },
+  "pedestrian_standard_hysteresis_threshold": {
+    "source": "pedestrian",
+    "canny_config": "standard",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.0904603375043049,
+    "contour_area_reduction": 0.031125827814569535,
+    "fragmentation_increase": 0.28776978417266186,
+    "attack_success": false
+  },
+  "pedestrian_standard_gradient_smoothing": {
+    "source": "pedestrian",
+    "canny_config": "standard",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.12019285960280106,
+    "contour_area_reduction": 0.015894039735099338,
+    "fragmentation_increase": -0.03597122302158273,
+    "attack_success": false
+  },
+  "pedestrian_standard_non_max_suppression": {
+    "source": "pedestrian",
+    "canny_config": "standard",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.07909539662495695,
+    "contour_area_reduction": -0.4052980132450331,
+    "fragmentation_increase": 0.2517985611510791,
+    "attack_success": false
+  },
+  "pedestrian_standard_connectivity_breaking": {
+    "source": "pedestrian",
+    "canny_config": "standard",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.04155665250832281,
+    "contour_area_reduction": 0.011258278145695364,
+    "fragmentation_increase": 0.22302158273381295,
+    "attack_success": false
+  },
+  "pedestrian_standard_multi_scale": {
+    "source": "pedestrian",
+    "canny_config": "standard",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": 0.025370221558948455,
+    "contour_area_reduction": 0.009933774834437087,
+    "fragmentation_increase": 0.08633093525179857,
+    "attack_success": false
+  },
+  "pedestrian_high_threshold_hysteresis_threshold": {
+    "source": "pedestrian",
+    "canny_config": "high_threshold",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.09984096130058315,
+    "contour_area_reduction": 0.5939849624060151,
+    "fragmentation_increase": 0.3142857142857143,
+    "attack_success": true
+  },
+  "pedestrian_high_threshold_gradient_smoothing": {
+    "source": "pedestrian",
+    "canny_config": "high_threshold",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.2240678565117512,
+    "contour_area_reduction": 0.7758031442241968,
+    "fragmentation_increase": -0.19047619047619047,
+    "attack_success": true
+  },
+  "pedestrian_high_threshold_non_max_suppression": {
+    "source": "pedestrian",
+    "canny_config": "high_threshold",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.07845909171231666,
+    "contour_area_reduction": 0.8270676691729323,
+    "fragmentation_increase": 0.21904761904761905,
+    "attack_success": true
+  },
+  "pedestrian_high_threshold_connectivity_breaking": {
+    "source": "pedestrian",
+    "canny_config": "high_threshold",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.10461212228308889,
+    "contour_area_reduction": 0.8004101161995899,
+    "fragmentation_increase": 0.10476190476190476,
+    "attack_success": true
+  },
+  "pedestrian_high_threshold_multi_scale": {
+    "source": "pedestrian",
+    "canny_config": "high_threshold",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.012192966955292454,
+    "contour_area_reduction": 0.49487354750512647,
+    "fragmentation_increase": 0.01904761904761905,
+    "attack_success": true
+  },
+  "pedestrian_sensitive_hysteresis_threshold": {
+    "source": "pedestrian",
+    "canny_config": "sensitive",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.04640883977900553,
+    "contour_area_reduction": 0.10407725321888411,
+    "fragmentation_increase": 0.05362776025236593,
+    "attack_success": false
+  },
+  "pedestrian_sensitive_gradient_smoothing": {
+    "source": "pedestrian",
+    "canny_config": "sensitive",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.06345698500394634,
+    "contour_area_reduction": 0.08744635193133048,
+    "fragmentation_increase": -0.07570977917981073,
+    "attack_success": false
+  },
+  "pedestrian_sensitive_non_max_suppression": {
+    "source": "pedestrian",
+    "canny_config": "sensitive",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.2091554853985793,
+    "contour_area_reduction": -1.1722103004291846,
+    "fragmentation_increase": 0.11987381703470032,
+    "attack_success": false
+  },
+  "pedestrian_sensitive_connectivity_breaking": {
+    "source": "pedestrian",
+    "canny_config": "sensitive",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.017048145224940806,
+    "contour_area_reduction": 0.21351931330472104,
+    "fragmentation_increase": 0.08201892744479496,
+    "attack_success": true
+  },
+  "pedestrian_sensitive_multi_scale": {
+    "source": "pedestrian",
+    "canny_config": "sensitive",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.01712707182320442,
+    "contour_area_reduction": 0.07188841201716738,
+    "fragmentation_increase": 0.01892744479495268,
+    "attack_success": false
+  },
+  "street_scene_standard_hysteresis_threshold": {
+    "source": "street_scene",
+    "canny_config": "standard",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.05471295360071902,
+    "contour_area_reduction": 0.1989700374531835,
+    "fragmentation_increase": 0.050314465408805034,
+    "attack_success": false
+  },
+  "street_scene_standard_gradient_smoothing": {
+    "source": "street_scene",
+    "canny_config": "standard",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.11302100887540725,
+    "contour_area_reduction": -0.1896067415730337,
+    "fragmentation_increase": -0.0440251572327044,
+    "attack_success": false
+  },
+  "street_scene_standard_non_max_suppression": {
+    "source": "street_scene",
+    "canny_config": "standard",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.02055948769801146,
+    "contour_area_reduction": 0.037921348314606744,
+    "fragmentation_increase": -0.10062893081761007,
+    "attack_success": false
+  },
+  "street_scene_standard_connectivity_breaking": {
+    "source": "street_scene",
+    "canny_config": "standard",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.044938770924615214,
+    "contour_area_reduction": 0.4747191011235955,
+    "fragmentation_increase": 0.16981132075471697,
+    "attack_success": true
+  },
+  "street_scene_standard_multi_scale": {
+    "source": "street_scene",
+    "canny_config": "standard",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.0021345916189192226,
+    "contour_area_reduction": 0.19662921348314608,
+    "fragmentation_increase": 0.018867924528301886,
+    "attack_success": false
+  },
+  "street_scene_high_threshold_hysteresis_threshold": {
+    "source": "street_scene",
+    "canny_config": "high_threshold",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.07844784142449185,
+    "contour_area_reduction": -0.07493368700265252,
+    "fragmentation_increase": 0.1875,
+    "attack_success": false
+  },
+  "street_scene_high_threshold_gradient_smoothing": {
+    "source": "street_scene",
+    "canny_config": "high_threshold",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.23047203090878549,
+    "contour_area_reduction": 0.07029177718832891,
+    "fragmentation_increase": -0.140625,
+    "attack_success": true
+  },
+  "street_scene_high_threshold_non_max_suppression": {
+    "source": "street_scene",
+    "canny_config": "high_threshold",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.04938686376616832,
+    "contour_area_reduction": -0.2579575596816976,
+    "fragmentation_increase": 0.046875,
+    "attack_success": false
+  },
+  "street_scene_high_threshold_connectivity_breaking": {
+    "source": "street_scene",
+    "canny_config": "high_threshold",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.12094742146816731,
+    "contour_area_reduction": 0.38992042440318303,
+    "fragmentation_increase": -0.0859375,
+    "attack_success": true
+  },
+  "street_scene_high_threshold_multi_scale": {
+    "source": "street_scene",
+    "canny_config": "high_threshold",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.008399126490844951,
+    "contour_area_reduction": -0.2002652519893899,
+    "fragmentation_increase": 0.03125,
+    "attack_success": false
+  },
+  "street_scene_sensitive_hysteresis_threshold": {
+    "source": "street_scene",
+    "canny_config": "sensitive",
+    "attack_method": "hysteresis_threshold",
+    "edge_density_reduction": -0.016617715257381357,
+    "contour_area_reduction": 0.334525939177102,
+    "fragmentation_increase": 0.11411411411411411,
+    "attack_success": true
+  },
+  "street_scene_sensitive_gradient_smoothing": {
+    "source": "street_scene",
+    "canny_config": "sensitive",
+    "attack_method": "gradient_smoothing",
+    "edge_density_reduction": 0.05255835523264801,
+    "contour_area_reduction": 0.3998211091234347,
+    "fragmentation_increase": -0.1021021021021021,
+    "attack_success": true
+  },
+  "street_scene_sensitive_non_max_suppression": {
+    "source": "street_scene",
+    "canny_config": "sensitive",
+    "attack_method": "non_max_suppression",
+    "edge_density_reduction": -0.13641984850827021,
+    "contour_area_reduction": -0.4588550983899821,
+    "fragmentation_increase": 0.03003003003003003,
+    "attack_success": false
+  },
+  "street_scene_sensitive_connectivity_breaking": {
+    "source": "street_scene",
+    "canny_config": "sensitive",
+    "attack_method": "connectivity_breaking",
+    "edge_density_reduction": 0.011207296336373473,
+    "contour_area_reduction": 0.6723315444245677,
+    "fragmentation_increase": 0.015015015015015015,
+    "attack_success": true
+  },
+  "street_scene_sensitive_multi_scale": {
+    "source": "street_scene",
+    "canny_config": "sensitive",
+    "attack_method": "multi_scale",
+    "edge_density_reduction": -0.004637501932292472,
+    "contour_area_reduction": -0.4609421586165772,
+    "fragmentation_increase": -0.06306306306306306,
+    "attack_success": false
+  }
+}

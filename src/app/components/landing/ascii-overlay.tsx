@@ -16,7 +16,7 @@ const AsciiOverlay: React.FC = () => (
           href="/about"
           className="font-mono bg-black text-white border border-white px-4 py-2 hover:bg-white hover:text-black transition"
         >
-          /about
+          /learn-more
         </Link>
         <Link
           href="/simulation"

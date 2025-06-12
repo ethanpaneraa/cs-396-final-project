@@ -1,0 +1,20 @@
+{
+  "configuration": {
+    "detector": "canny",
+    "attack_type": "edge_blur",
+    "attack_intensity": "aggressive",
+    "lighting": "low_light",
+    "resolution": 256
+  },
+  "metrics": {
+    "edge_density_reduction": 1.0,
+    "contour_area_reduction": 1.0,
+    "attack_success": true
+  },
+  "files": {
+    "original": "sim_canny_edge_blur_aggressive_original.png",
+    "attacked": "sim_canny_edge_blur_aggressive_attacked.png",
+    "edges_clean": "sim_canny_edge_blur_aggressive_edges_clean.png",
+    "edges_attacked": "sim_canny_edge_blur_aggressive_edges_attacked.png"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "stop_sign_edge_blur": {
+    "source": "stop_sign",
+    "attack_method": "edge_blur",
+    "edge_density_reduction": -1.7754713196951464,
+    "contour_area_reduction": -0.08084366360474449,
+    "attack_success": true
+  },
+  "stop_sign_gradient_reverse": {
+    "source": "stop_sign",
+    "attack_method": "gradient_reverse",
+    "edge_density_reduction": -0.3309265944645006,
+    "contour_area_reduction": -0.03443919260382294,
+    "attack_success": true
+  },
+  "stop_sign_contour_disrupt": {
+    "source": "stop_sign",
+    "attack_method": "contour_disrupt",
+    "edge_density_reduction": 0.28479743281187325,
+    "contour_area_reduction": 0.2402717084336633,
+    "attack_success": true
+  },
+  "pedestrian_edge_blur": {
+    "source": "pedestrian",
+    "attack_method": "edge_blur",
+    "edge_density_reduction": -0.34472515790131947,
+    "contour_area_reduction": -0.3742403615387854,
+    "attack_success": true
+  },
+  "pedestrian_gradient_reverse": {
+    "source": "pedestrian",
+    "attack_method": "gradient_reverse",
+    "edge_density_reduction": 0.08170220749171409,
+    "contour_area_reduction": 0.07028673281778501,
+    "attack_success": false
+  },
+  "pedestrian_contour_disrupt": {
+    "source": "pedestrian",
+    "attack_method": "contour_disrupt",
+    "edge_density_reduction": 0.7551435182290038,
+    "contour_area_reduction": 0.8187113163324024,
+    "attack_success": true
+  },
+  "street_scene_edge_blur": {
+    "source": "street_scene",
+    "attack_method": "edge_blur",
+    "edge_density_reduction": -0.11788561040413928,
+    "contour_area_reduction": 0.40211689193359257,
+    "attack_success": true
+  },
+  "street_scene_gradient_reverse": {
+    "source": "street_scene",
+    "attack_method": "gradient_reverse",
+    "edge_density_reduction": 0.0032163333799468605,
+    "contour_area_reduction": 0.02650743689440227,
+    "attack_success": false
+  },
+  "street_scene_contour_disrupt": {
+    "source": "street_scene",
+    "attack_method": "contour_disrupt",
+    "edge_density_reduction": 0.7045168507900993,
+    "contour_area_reduction": 0.8428531753379004,
+    "attack_success": true
+  }
+}

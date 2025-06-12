@@ -1,0 +1,20 @@
+{
+  "configuration": {
+    "detector": "sobel",
+    "attack_type": "contour_disrupt",
+    "attack_intensity": "moderate",
+    "lighting": "low_light",
+    "resolution": 256
+  },
+  "metrics": {
+    "edge_density_reduction": 0.17890550704590646,
+    "contour_area_reduction": 0.17969064815101826,
+    "attack_success": true
+  },
+  "files": {
+    "original": "sim_sobel_contour_disrupt_moderate_original.png",
+    "attacked": "sim_sobel_contour_disrupt_moderate_attacked.png",
+    "edges_clean": "sim_sobel_contour_disrupt_moderate_edges_clean.png",
+    "edges_attacked": "sim_sobel_contour_disrupt_moderate_edges_attacked.png"
+  }
+}

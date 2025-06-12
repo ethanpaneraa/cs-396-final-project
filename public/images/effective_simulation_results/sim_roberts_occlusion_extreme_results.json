@@ -1,0 +1,20 @@
+{
+  "configuration": {
+    "detector": "roberts",
+    "attack_type": "occlusion",
+    "attack_intensity": "extreme",
+    "lighting": "low_light",
+    "resolution": 256
+  },
+  "metrics": {
+    "edge_density_reduction": 0.23116330525061696,
+    "contour_area_reduction": 0.03753222892961356,
+    "attack_success": true
+  },
+  "files": {
+    "original": "sim_roberts_occlusion_extreme_original.png",
+    "attacked": "sim_roberts_occlusion_extreme_attacked.png",
+    "edges_clean": "sim_roberts_occlusion_extreme_edges_clean.png",
+    "edges_attacked": "sim_roberts_occlusion_extreme_edges_attacked.png"
+  }
+}

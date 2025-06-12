@@ -1,0 +1,20 @@
+{
+  "configuration": {
+    "detector": "laplacian",
+    "attack_type": "geometric",
+    "attack_intensity": "subtle",
+    "lighting": "low_light",
+    "resolution": 256
+  },
+  "metrics": {
+    "edge_density_reduction": -0.04897026284436015,
+    "contour_area_reduction": -0.016701243982345543,
+    "attack_success": false
+  },
+  "files": {
+    "original": "sim_laplacian_geometric_subtle_original.png",
+    "attacked": "sim_laplacian_geometric_subtle_attacked.png",
+    "edges_clean": "sim_laplacian_geometric_subtle_edges_clean.png",
+    "edges_attacked": "sim_laplacian_geometric_subtle_edges_attacked.png"
+  }
+}

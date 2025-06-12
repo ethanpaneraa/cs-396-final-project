@@ -1,0 +1,35 @@
+{
+  "attack_methods": {
+    "hysteresis_threshold": "Targets the dual-threshold hysteresis by adding noise in the threshold gap",
+    "gradient_smoothing": "Selectively smooths gradients to reduce edge strength below detection threshold",
+    "non_max_suppression": "Creates competing gradients to confuse the edge thinning process",
+    "connectivity_breaking": "Introduces gaps in edges to break hysteresis-based edge linking",
+    "multi_scale": "Uses multi-scale perturbations to affect edge detection at different sensitivities"
+  },
+  "canny_configurations": [
+    {
+      "low": 50,
+      "high": 150,
+      "blur": 5,
+      "name": "standard"
+    },
+    {
+      "low": 100,
+      "high": 200,
+      "blur": 5,
+      "name": "high_threshold"
+    },
+    {
+      "low": 30,
+      "high": 100,
+      "blur": 3,
+      "name": "sensitive"
+    }
+  ],
+  "metrics_explanation": {
+    "edge_density_reduction": "Reduction in total detected edge pixels",
+    "contour_area_reduction": "Reduction in the largest connected edge region",
+    "fragmentation_increase": "Increase in number of disconnected edge segments",
+    "attack_success": "True if any metric exceeds threshold"
+  }
+}
