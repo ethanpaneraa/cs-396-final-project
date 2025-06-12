@@ -15,8 +15,6 @@ export class ASCIIBoxRenderer {
     this.ctx = ctx;
     this.cols = Math.floor(width / this.charWidth);
     this.rows = Math.floor(height / this.charHeight);
-
-    // Precompute static checkerboard background
     this.staticBuffer = Array.from({ length: this.rows }, (_, y) => {
       const row: string[] = [];
       for (let x = 0; x < this.cols; x++) {
@@ -25,20 +23,17 @@ export class ASCIIBoxRenderer {
       return row;
     });
 
-    // Set font once
     this.ctx.font = `${this.charHeight}px Monaco, monospace`;
     this.ctx.textBaseline = "top";
-    this.ctx.fillStyle = "#000"; // text color
+    this.ctx.fillStyle = "#000";
   }
 
   render(canvas: HTMLCanvasElement) {
     const { ctx, cols, rows, charHeight } = this;
-    // Clone static buffer
     const buffer = this.staticBuffer.map((r) => r.slice());
 
     const t = performance.now() * 0.002 * 3;
 
-    // Compute margins & grid
     let marginX = 3;
     let marginY = 2;
     const numX = Math.floor(
@@ -54,7 +49,6 @@ export class ASCIIBoxRenderer {
       (rows - numY * this.baseH - (numY - 1) * this.spacingY) / 2
     );
 
-    // Overlay animated boxes
     for (let j = 0; j < numY; j++) {
       for (let i = 0; i < numX; i++) {
         const ox = Math.floor(Math.sin((i + j) * 0.6 + t) * this.spacingX);
@@ -65,11 +59,9 @@ export class ASCIIBoxRenderer {
       }
     }
 
-    // Paint background
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw text buffer
     ctx.fillStyle = "#000000";
     for (let y = 0; y < rows; y++) {
       ctx.fillText(buffer[y].join(""), 0, y * charHeight);
@@ -85,14 +77,12 @@ export class ASCIIBoxRenderer {
     numX: number
   ) {
     const { baseW, baseH, message } = this;
-    // clear area
     for (let dy = 0; dy < baseH; dy++) {
       for (let dx = 0; dx < baseW; dx++) {
         if (buffer[y + dy]?.[x + dx] !== undefined)
           buffer[y + dy][x + dx] = " ";
       }
     }
-    // draw borders
     for (let dx = 0; dx < baseW; dx++) {
       if (buffer[y]?.[x + dx] !== undefined) buffer[y][x + dx] = "═";
       if (buffer[y + baseH - 1]?.[x + dx] !== undefined)
@@ -103,7 +93,7 @@ export class ASCIIBoxRenderer {
       if (buffer[y + dy]?.[x + baseW - 1] !== undefined)
         buffer[y + dy][x + baseW - 1] = "║";
     }
-    // corners
+
     if (buffer[y]?.[x] !== undefined) buffer[y][x] = "╔";
     if (buffer[y]?.[x + baseW - 1] !== undefined)
       buffer[y][x + baseW - 1] = "╗";
@@ -112,7 +102,6 @@ export class ASCIIBoxRenderer {
     if (buffer[y + baseH - 1]?.[x + baseW - 1] !== undefined)
       buffer[y + baseH - 1][x + baseW - 1] = "╝";
 
-    // shadow
     for (let dx = 2; dx < baseW + 2; dx++) {
       if (buffer[y + baseH]?.[x + dx] !== undefined)
         buffer[y + baseH][x + dx] = "░";
@@ -122,7 +111,6 @@ export class ASCIIBoxRenderer {
         buffer[y + dy][x + baseW] = "░";
     }
 
-    // content
     const ch = message[(i + j * numX) % message.length];
     if (buffer[y + 1]?.[x + 2] !== undefined) buffer[y + 1][x + 2] = `*${ch}`;
     const pos = `pos:${x},${y}`;

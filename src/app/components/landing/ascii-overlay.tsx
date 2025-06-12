@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const AsciiOverlay: React.FC = () => (
   <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-    <div className="bg-white border border-gray-400 p-6 w-full max-w-3xl overflow-y-auto max-h-[90vh] shadow-lg">
+    <div className="bg-white border border-gray-400 p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh] shadow-lg">
       <h1 className="text-5xl font-bold text-black font-mono mb-8">
         investigating the edge
       </h1>
@@ -11,9 +11,7 @@ const AsciiOverlay: React.FC = () => (
         an online lab where you can navigate through edge-detector behaviors and
         uncover vulnerabilities in vision models
       </p>
-
-      {/* Buttons */}
-      <div className="mt-8 flex space-x-4">
+      <div className="mt-8 flex space-x-4 items-center justify-center">
         <Link
           href="/about"
           className="font-mono bg-black text-white border border-white px-4 py-2 hover:bg-white hover:text-black transition"
@@ -28,15 +26,8 @@ const AsciiOverlay: React.FC = () => (
         </Link>
       </div>
 
-      <p className="pt-4 text-sm font-mono text-black">
-        created by{" "}
-        <Link
-          href="https://ethanpinedaa.dev"
-          target="_blank"
-          className="underline underline-offset-2 font-bold text-black hover:text-gray-700"
-        >
-          ethan pineda
-        </Link>
+      <p className="pt-4 text-sm font-mono text-black text-center">
+        scroll to learn more
       </p>
     </div>
   </div>
