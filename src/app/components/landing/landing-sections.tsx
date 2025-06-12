@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import StaticAsciiBackground from "@/app/components/landing/static-ascii-background";
+import StaticAsciiBackground from "@/app/components/static-ascii-background";
 
 const LandingSections: React.FC = () => (
   <section className="relative w-full overflow-hidden">
