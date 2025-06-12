@@ -7,10 +7,10 @@ import QuizImage from "@/app/components/simulation/quiz-image";
 import QuizEdge from "@/app/components/simulation/quiz-edge";
 import PurposeModal from "@/app/components/simulation/purpose-modal";
 import CongratsModal from "@/app/components/simulation/congrats-modal";
-// import SimulationForm from "@/app/components/simulation/SimulationForm";
+import SimulationForm from "@/app/components/simulation/simulation-form";
 
 export default function SimulationPage() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(4);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -30,7 +30,7 @@ export default function SimulationPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="relative z-10 p-8 font-mono max-w-4xl mx-auto"
+          className="relative z-10 p-8 font-mono max-w-6xl mx-auto"
         >
           <div className="bg-white border-2 border-black p-6 shadow-lg">
             <h1 className="text-3xl font-bold mb-6 text-black">
@@ -40,11 +40,16 @@ export default function SimulationPage() {
               <p>&gt; System initialized…</p>
               <p>&gt; Loading edge detection modules…</p>
               <p>&gt; Ready for adversarial testing.</p>
+              <p className="mt-2 text-yellow-400">
+                &gt; WARNING: Test results may reveal critical vulnerabilities.
+              </p>
             </div>
-            {/* TODO: Drop in your SimulationForm here */}
+
+            <SimulationForm />
           </div>
         </motion.div>
       )}
     </div>
   );
 }
+2;
