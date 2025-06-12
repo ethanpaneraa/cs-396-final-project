@@ -1,7 +1,13 @@
+import Header from "@/app/components/navigaton/header";
+import StaticAsciiBackground from "@/app/components/static-ascii-background";
+
 export default function AboutPage() {
   return (
     <>
-      <h1>this is the about page</h1>
+      <Header />
+      <div className="absolute inset-0">
+        <StaticAsciiBackground />
+      </div>
     </>
   );
 }
