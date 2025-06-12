@@ -1,418 +1,179 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import ImageSettings from "@/app/components/simulation/image-settings";
+import AttackSettings from "@/app/components/simulation/attack-settings";
+import MetricsPanel from "@/app/components/simulation/metrics-panel";
+import ImageGallery from "@/app/components/simulation/image-gallery";
+import ConfigSummary from "@/app/components/simulation/config-summary";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SimulationForm = () => {
+// ----- Constants & Helpers -----
+const IMAGE_SOURCE_MAP: Record<string, string> = {
+  pedestrian: "pedestrian",
+  stop_sign: "stop_sign",
+  street_scene: "street_scene",
+};
+
+const EDGE_DETECTORS: Record<string, string> = {
+  sobel: "Sobel Filter — gradient magnitude",
+  canny: "Canny — multi-stage with hysteresis",
+  laplacian: "Laplacian of Gaussian — second derivative",
+  roberts: "Roberts Cross — simple cross kernels",
+};
+
+const ATTACK_TYPES_BY_LEVEL: Record<
+  string,
+  { type: string; displayName: string }
+> = {
+  gentle_pixels: {
+    type: "pixel_perturbation",
+    displayName: "Gentle Pixel Perturbation",
+  },
+  moderate_pixels: {
+    type: "pixel_perturbation",
+    displayName: "Moderate Pixel Perturbation",
+  },
+  aggressive_pixels: {
+    type: "pixel_perturbation",
+    displayName: "Aggressive Pixel Perturbation",
+  },
+  smart_edge: { type: "edge_blur", displayName: "Smart Edge Blur" },
+  gradient: {
+    type: "gradient_reverse",
+    displayName: "Gradient Direction Attack",
+  },
+  contour: { type: "contour_disrupt", displayName: "Contour Disruption" },
+};
+
+interface CurrentImages {
+  clean: string;
+  perturbed: string;
+  edgesClean: string;
+  edgesPerturbed: string;
+}
+
+const buildImagePaths = (
+  source: string,
+  detector: string,
+  level: string
+): CurrentImages => {
+  const baseName = `${source}-${detector}-${level}`;
+  return {
+    clean: `/images/progressive_attacks/${baseName}-clean.png`,
+    perturbed: `/images/progressive_attacks/${baseName}-pert.png`,
+    edgesClean: `/images/progressive_attacks/${baseName}-edges-clean.png`,
+    edgesPerturbed: `/images/progressive_attacks/${baseName}-edges-pert.png`,
+  };
+};
+
+const getAvailableDetectors = (level: string): string[] =>
+  level === "contour"
+    ? ["sobel", "canny", "laplacian", "roberts"]
+    : ["sobel", "canny"];
+
+// ----- Parent Component -----
+const SimulationForm: React.FC = () => {
   const [config, setConfig] = useState({
     imageSource: "pedestrian",
     edgeDetector: "sobel",
     attackLevel: "moderate_pixels",
-    attackType: "pixel_perturbation",
+    attackType: ATTACK_TYPES_BY_LEVEL["moderate_pixels"].type,
   });
-
-  const [currentImages, setCurrentImages] = useState<{
-    clean: string;
-    perturbed: string;
-    edgesClean: string;
-    edgesPerturbed: string;
-  } | null>(null);
+  const [currentImages, setCurrentImages] = useState<CurrentImages | null>(
+    null
+  );
   const [metrics, setMetrics] = useState<any>(null);
-  const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const IMAGE_SOURCE_MAP: Record<string, string> = {
-    pedestrian: "pedestrian",
-    stop_sign: "stop_sign",
-    street_scene: "street_scene",
-  };
-
-  const EDGE_DETECTORS: Record<string, string> = {
-    sobel: "Sobel Filter — gradient magnitude",
-    canny: "Canny — multi-stage with hysteresis",
-    laplacian: "Laplacian of Gaussian — second derivative",
-    roberts: "Roberts Cross — simple cross kernels",
-  };
-
-  const ATTACK_TYPES_BY_LEVEL: Record<
-    string,
-    { type: string; displayName: string }
-  > = {
-    gentle_pixels: {
-      type: "pixel_perturbation",
-      displayName: "Gentle Pixel Perturbation",
-    },
-    moderate_pixels: {
-      type: "pixel_perturbation",
-      displayName: "Moderate Pixel Perturbation",
-    },
-    aggressive_pixels: {
-      type: "pixel_perturbation",
-      displayName: "Aggressive Pixel Perturbation",
-    },
-    smart_edge: { type: "edge_blur", displayName: "Smart Edge Blur" },
-    gradient: {
-      type: "gradient_reverse",
-      displayName: "Gradient Direction Attack",
-    },
-    contour: { type: "contour_disrupt", displayName: "Contour Disruption" },
-  };
-
-  const buildImagePaths = (source: string, detector: string, level: string) => {
-    const baseName = `${source}-${detector}-${level}`;
-    return {
-      clean: `/images/progressive_attacks/${baseName}-clean.png`,
-      perturbed: `/images/progressive_attacks/${baseName}-pert.png`,
-      edgesClean: `/images/progressive_attacks/${baseName}-edges-clean.png`,
-      edgesPerturbed: `/images/progressive_attacks/${baseName}-edges-pert.png`,
-    };
-  };
-
-  const loadMetrics = async () => {
+  // Load metrics on config change
+  const fetchMetrics = async () => {
     setLoading(true);
     try {
-      const response = await fetch("/images/progressive_attacks/metadata.json");
-      if (response.ok) {
-        const data = await response.json();
+      const res = await fetch("/images/progressive_attacks/metadata.json");
+      if (res.ok) {
+        const data = await res.json();
         const key = `${config.imageSource}-${config.edgeDetector}-${config.attackLevel}`;
-        if (data[key]) {
-          setMetrics(data[key]);
-        }
+        setMetrics(data[key] || null);
       }
-    } catch (error) {
-      console.log("Could not load metrics, using placeholder data");
-      setMetrics({
-        edge_density_reduction: Math.random() * 0.5,
-        contour_area_reduction: Math.random() * 0.4,
-        attack_success: Math.random() > 0.5,
-        edge_fraction_clean: 0.15 + Math.random() * 0.1,
-        edge_fraction_perturbed: 0.08 + Math.random() * 0.1,
-      });
+    } catch {
+      setMetrics(null);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    const paths = buildImagePaths(
-      IMAGE_SOURCE_MAP[config.imageSource],
-      config.edgeDetector,
-      config.attackLevel
+    setCurrentImages(
+      buildImagePaths(
+        IMAGE_SOURCE_MAP[config.imageSource],
+        config.edgeDetector,
+        config.attackLevel
+      )
     );
-    setCurrentImages(paths);
-    loadMetrics();
+    fetchMetrics();
   }, [config]);
-
-  const runExperiment = () => {
-    const result = {
-      config: { ...config },
-      metrics: metrics || {},
-      timestamp: new Date().toISOString(),
-    };
-    setHistory((prev) => [result, ...prev].slice(0, 10));
-  };
-
-  const getAvailableDetectors = (level: string): string[] => {
-    const attackInfo = ATTACK_TYPES_BY_LEVEL[level];
-    if (!attackInfo) return ["sobel", "canny"];
-    if (level === "contour") {
-      return ["sobel", "canny", "laplacian", "roberts"];
-    }
-    return ["sobel", "canny"];
-  };
 
   const availableDetectors = getAvailableDetectors(config.attackLevel);
 
+  // Unique key to trigger AnimatePresence on each config change
+  const animationKey = `${config.imageSource}-${config.edgeDetector}-${config.attackLevel}`;
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 font-mono">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <h3 className="text-lg font-bold text-black border-b-2 border-black pb-2">
-            ▶ IMAGE & DETECTION SETTINGS
-          </h3>
+        <ImageSettings
+          config={{
+            imageSource: config.imageSource,
+            edgeDetector: config.edgeDetector,
+          }}
+          onChange={(upd) => setConfig({ ...config, ...upd })}
+          detectors={EDGE_DETECTORS}
+          availableDetectors={availableDetectors}
+        />
 
-          <div>
-            <label className="block text-sm font-bold mb-2 text-black">
-              Source Image:
-            </label>
-            <select
-              value={config.imageSource}
-              onChange={(e) =>
-                setConfig({ ...config, imageSource: e.target.value })
-              }
-              className="w-full px-3 py-2 border-2 border-black bg-white text-black font-mono focus:outline-none focus:ring-2 focus:ring-black"
-            >
-              <option value="pedestrian">Pedestrian Crossing</option>
-              <option value="stop_sign">Stop Sign</option>
-              <option value="street_scene">Street Scene</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-bold mb-2 text-black">
-              Edge Detection Algorithm:
-            </label>
-            <select
-              value={config.edgeDetector}
-              onChange={(e) =>
-                setConfig({ ...config, edgeDetector: e.target.value })
-              }
-              className="w-full px-3 py-2 border-2 border-black bg-white text-black font-mono focus:outline-none focus:ring-2 focus:ring-black"
-              disabled={
-                !availableDetectors.includes(config.edgeDetector) &&
-                availableDetectors.length > 0
-              }
-            >
-              {Object.entries(EDGE_DETECTORS).map(([key, desc]) => (
-                <option
-                  key={key}
-                  value={key}
-                  disabled={!availableDetectors.includes(key)}
-                >
-                  {key.toUpperCase()} - {desc}
-                </option>
-              ))}
-            </select>
-            {!availableDetectors.includes(config.edgeDetector) && (
-              <p className="text-xs text-red-600 mt-1">
-                Note: {config.edgeDetector} not available for{" "}
-                {config.attackLevel}
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-bold text-black border-b-2 border-black pb-2">
-            ⚡ ATTACK CONFIGURATION
-          </h3>
-
-          <div>
-            <label className="block text-sm font-bold mb-2 text-black">
-              Attack Level & Type:
-            </label>
-            <div className="space-y-2">
-              {Object.entries(ATTACK_TYPES_BY_LEVEL).map(([level, info]) => (
-                <label key={level} className="flex items-start text-black">
-                  <input
-                    type="radio"
-                    name="attackLevel"
-                    value={level}
-                    checked={config.attackLevel === level}
-                    onChange={(e) => {
-                      const newLevel = e.target.value;
-                      const availableForNew = getAvailableDetectors(newLevel);
-                      setConfig({
-                        ...config,
-                        attackLevel: newLevel,
-                        attackType: ATTACK_TYPES_BY_LEVEL[newLevel].type,
-                        edgeDetector: availableForNew.includes(
-                          config.edgeDetector
-                        )
-                          ? config.edgeDetector
-                          : availableForNew[0],
-                      });
-                    }}
-                    className="mt-1 mr-3"
-                  />
-                  <div>
-                    <span className="font-semibold">{info.displayName}</span>
-                    <span className="text-xs block text-black">
-                      Level: {level.replace("_", " ")}
-                    </span>
-                  </div>
-                </label>
-              ))}
-            </div>
-          </div>
-        </div>
+        <AttackSettings
+          attackTypes={ATTACK_TYPES_BY_LEVEL}
+          currentLevel={config.attackLevel}
+          onLevelChange={(level) => {
+            const avail = getAvailableDetectors(level);
+            setConfig({
+              ...config,
+              attackLevel: level,
+              attackType: ATTACK_TYPES_BY_LEVEL[level].type,
+              edgeDetector: avail.includes(config.edgeDetector)
+                ? config.edgeDetector
+                : avail[0],
+            });
+          }}
+        />
       </div>
-      <div className="flex justify-center gap-4">
-        <motion.button
-          onClick={runExperiment}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="px-8 py-3 bg-black text-white font-bold text-lg border-2 border-black hover:bg-gray-800 transition-colors"
-        >
-          ▶ LOAD & ANALYZE
-        </motion.button>
-      </div>
-      <AnimatePresence>
-        {currentImages && (
+
+      <AnimatePresence exitBeforeEnter>
+        {!loading && currentImages && metrics && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="space-y-6"
+            key={animationKey}
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 40 }}
+            transition={{ type: "tween", duration: 0.4 }}
+            className="bg-gray-900 p-4 rounded border border-gray-700 text-white"
           >
-            {metrics && (
-              <div className="bg-black text-white p-6 border-2 border-black">
-                <h3 className="text-xl font-bold mb-4">
-                  █ ATTACK EFFECTIVENESS METRICS █
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <span className="text-black text-sm">
-                      Edge Density Reduction:
-                    </span>
-                    <div className="text-3xl font-bold mt-1">
-                      {(metrics.edge_density_reduction * 100).toFixed(1)}%
-                    </div>
-                  </div>
-                  <div>
-                    <span className="text-black text-sm">
-                      Contour Area Reduction:
-                    </span>
-                    <div className="text-3xl font-bold mt-1">
-                      {(metrics.contour_area_reduction * 100).toFixed(1)}%
-                    </div>
-                  </div>
-                  <div>
-                    <span className="text-black text-sm">Attack Result:</span>
-                    <div
-                      className={`text-3xl font-bold mt-1 ${
-                        metrics.attack_success
-                          ? "text-red-500"
-                          : "text-green-500"
-                      }`}
-                    >
-                      {metrics.attack_success ? "⚠️ SUCCESS" : "✓ DEFENDED"}
-                    </div>
-                  </div>
-                </div>
-
-                {metrics.edge_fraction_clean && (
-                  <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-700">
-                    <div>
-                      <span className="text-black text-xs">
-                        Clean Edge Fraction:
-                      </span>
-                      <div className="text-lg font-mono">
-                        {metrics.edge_fraction_clean.toFixed(3)}
-                      </div>
-                    </div>
-                    <div>
-                      <span className="text-black text-xs">
-                        Perturbed Edge Fraction:
-                      </span>
-                      <div className="text-lg font-mono">
-                        {metrics.edge_fraction_perturbed.toFixed(3)}
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <motion.div
-                className="border-2 border-black p-3 bg-white"
-                whileHover={{ scale: 1.02 }}
-              >
-                <h4 className="text-sm font-bold mb-2 text-center text-black">
-                  ORIGINAL
-                </h4>
-                <img
-                  src={currentImages.clean}
-                  alt="Original"
-                  className="w-full h-auto border border-gray-300"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/images/placeholder.png";
-                    (e.target as any).onerror = null;
-                  }}
-                />
-              </motion.div>
-              <motion.div
-                className="border-2 border-black p-3 bg-white"
-                whileHover={{ scale: 1.02 }}
-              >
-                <h4 className="text-sm font-bold mb-2 text-center text-black">
-                  ATTACKED
-                </h4>
-                <img
-                  src={currentImages.perturbed}
-                  alt="Attacked"
-                  className="w-full h-auto border border-gray-300"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/images/placeholder.png";
-                    (e.target as any).onerror = null;
-                  }}
-                />
-              </motion.div>
-              <motion.div
-                className="border-2 border-black p-3 bg-white"
-                whileHover={{ scale: 1.02 }}
-              >
-                <h4 className="text-sm font-bold mb-2 text-center text-black">
-                  EDGES (CLEAN)
-                </h4>
-                <img
-                  src={currentImages.edgesClean}
-                  alt="Clean Edges"
-                  className="w-full h-auto border border-gray-300"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/images/placeholder.png";
-                    (e.target as any).onerror = null;
-                  }}
-                />
-              </motion.div>
-              <motion.div
-                className="border-2 border-black p-3 bg-white"
-                whileHover={{ scale: 1.02 }}
-              >
-                <h4 className="text-sm font-bold mb-2 text-center text-black">
-                  EDGES (ATTACKED)
-                </h4>
-                <img
-                  src={currentImages.edgesPerturbed}
-                  alt="Attacked Edges"
-                  className="w-full h-auto border border-gray-300"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/images/placeholder.png";
-                    (e.target as any).onerror = null;
-                  }}
-                />
-              </motion.div>
-            </div>
-            <div className="border-2 border-black p-4 bg-gray-50">
-              <h4 className="font-bold mb-3 text-black">
-                Current Configuration:
-              </h4>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm font-mono">
-                <div>
-                  <span className="text-black">Source:</span>
-                  <div className="font-bold text-black">
-                    {config.imageSource}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-black">Detector:</span>
-                  <div className="font-bold text-black">
-                    {config.edgeDetector.toUpperCase()}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-black">Attack:</span>
-                  <div className="font-bold text-black">
-                    {ATTACK_TYPES_BY_LEVEL[config.attackLevel]?.type ??
-                      config.attackType}
-                  </div>
-                </div>
-                <div>
-                  <span className="text-black">Level:</span>
-                  <div className="font-bold text-black">
-                    {config.attackLevel}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <pre className="ascii-header mb-4">
+              ▶ Example Results for {animationKey}
+            </pre>
+            <MetricsPanel metrics={metrics} />
+            <ImageGallery images={currentImages} />
+            <ConfigSummary
+              config={config as any}
+              attackTypes={ATTACK_TYPES_BY_LEVEL}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Experiment History and Notice unchanged... */}
+      {loading && (
+        <div className="text-center font-mono text-gray-500">Loading...</div>
+      )}
     </div>
   );
 };
