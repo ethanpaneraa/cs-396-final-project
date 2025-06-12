@@ -10,11 +10,6 @@ import CongratsModal from "@/app/components/simulation/congrats-modal";
 // import SimulationForm from "@/app/components/simulation/SimulationForm";
 
 export default function SimulationPage() {
-  // 0 = purpose context
-  // 1 = image quiz
-  // 2 = edge quiz
-  // 3 = congrats slide
-  // 4 = actual simulation
   const [step, setStep] = useState(0);
 
   return (

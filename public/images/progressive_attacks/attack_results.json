@@ -1,0 +1,338 @@
+{
+  "stop_sign-sobel-gentle_pixels": {
+    "source": "stop_sign",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": 0.0,
+    "contour_area_reduction": 0.0,
+    "attack_success": false
+  },
+  "stop_sign-canny-gentle_pixels": {
+    "source": "stop_sign",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": 0.0,
+    "contour_area_reduction": 0.0,
+    "attack_success": false
+  },
+  "stop_sign-sobel-moderate_pixels": {
+    "source": "stop_sign",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.028580024067388687,
+    "contour_area_reduction": -0.011014001605279586,
+    "attack_success": false
+  },
+  "stop_sign-canny-moderate_pixels": {
+    "source": "stop_sign",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.01725703905540418,
+    "contour_area_reduction": 4.7607712449416804e-05,
+    "attack_success": false
+  },
+  "stop_sign-sobel-aggressive_pixels": {
+    "source": "stop_sign",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.09717208182912154,
+    "contour_area_reduction": -0.0015012336870893902,
+    "attack_success": false
+  },
+  "stop_sign-canny-aggressive_pixels": {
+    "source": "stop_sign",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.22585528307599154,
+    "contour_area_reduction": -0.0003967309370784734,
+    "attack_success": false
+  },
+  "stop_sign-sobel-smart_edge": {
+    "source": "stop_sign",
+    "detector": "sobel",
+    "attack_type": "edge_blur",
+    "edge_density_reduction": -1.7754713196951464,
+    "contour_area_reduction": -0.08084366360474449,
+    "attack_success": true
+  },
+  "stop_sign-canny-smart_edge": {
+    "source": "stop_sign",
+    "detector": "canny",
+    "attack_type": "edge_blur",
+    "edge_density_reduction": 0.8141083863154708,
+    "contour_area_reduction": 0.9922716813457113,
+    "attack_success": true
+  },
+  "stop_sign-sobel-gradient": {
+    "source": "stop_sign",
+    "detector": "sobel",
+    "attack_type": "gradient_reverse",
+    "edge_density_reduction": -0.33574007220216606,
+    "contour_area_reduction": -0.032061000624275394,
+    "attack_success": true
+  },
+  "stop_sign-canny-gradient": {
+    "source": "stop_sign",
+    "detector": "canny",
+    "attack_type": "gradient_reverse",
+    "edge_density_reduction": -0.47562821677263095,
+    "contour_area_reduction": 0.9244782988177418,
+    "attack_success": true
+  },
+  "stop_sign-sobel-contour": {
+    "source": "stop_sign",
+    "detector": "sobel",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.2695547533092659,
+    "contour_area_reduction": 0.2094592585986504,
+    "attack_success": true
+  },
+  "stop_sign-canny-contour": {
+    "source": "stop_sign",
+    "detector": "canny",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.3387829246139873,
+    "contour_area_reduction": 0.935808934380703,
+    "attack_success": true
+  },
+  "stop_sign-laplacian-contour": {
+    "source": "stop_sign",
+    "detector": "laplacian",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.39755851022471034,
+    "contour_area_reduction": 0.9094564316626255,
+    "attack_success": true
+  },
+  "stop_sign-roberts-contour": {
+    "source": "stop_sign",
+    "detector": "roberts",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.31029810298102983,
+    "contour_area_reduction": 0.16429597368299123,
+    "attack_success": true
+  },
+  "pedestrian-sobel-gentle_pixels": {
+    "source": "pedestrian",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": 6.253517603652055e-05,
+    "contour_area_reduction": 5.613956295350241e-05,
+    "attack_success": false
+  },
+  "pedestrian-canny-gentle_pixels": {
+    "source": "pedestrian",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": 0.0002780352177942539,
+    "contour_area_reduction": 0.0,
+    "attack_success": false
+  },
+  "pedestrian-sobel-moderate_pixels": {
+    "source": "pedestrian",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.005659433431305109,
+    "contour_area_reduction": -0.004757827960309329,
+    "attack_success": false
+  },
+  "pedestrian-canny-moderate_pixels": {
+    "source": "pedestrian",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.006302131603336422,
+    "contour_area_reduction": 0.7808510638297872,
+    "attack_success": true
+  },
+  "pedestrian-sobel-aggressive_pixels": {
+    "source": "pedestrian",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": 0.03633293727721844,
+    "contour_area_reduction": 0.012294564286817028,
+    "attack_success": false
+  },
+  "pedestrian-canny-aggressive_pixels": {
+    "source": "pedestrian",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.07497683039851714,
+    "contour_area_reduction": -0.00425531914893617,
+    "attack_success": false
+  },
+  "pedestrian-sobel-smart_edge": {
+    "source": "pedestrian",
+    "detector": "sobel",
+    "attack_type": "edge_blur",
+    "edge_density_reduction": -0.34472515790131947,
+    "contour_area_reduction": -0.3742403615387854,
+    "attack_success": true
+  },
+  "pedestrian-canny-smart_edge": {
+    "source": "pedestrian",
+    "detector": "canny",
+    "attack_type": "edge_blur",
+    "edge_density_reduction": 0.9935125115848007,
+    "contour_area_reduction": 0.9962765957446809,
+    "attack_success": true
+  },
+  "pedestrian-sobel-gradient": {
+    "source": "pedestrian",
+    "detector": "sobel",
+    "attack_type": "gradient_reverse",
+    "edge_density_reduction": 0.08163967231567756,
+    "contour_area_reduction": 0.07028673281778501,
+    "attack_success": false
+  },
+  "pedestrian-canny-gradient": {
+    "source": "pedestrian",
+    "detector": "canny",
+    "attack_type": "gradient_reverse",
+    "edge_density_reduction": -0.064967562557924,
+    "contour_area_reduction": 0.4409574468085106,
+    "attack_success": true
+  },
+  "pedestrian-sobel-contour": {
+    "source": "pedestrian",
+    "detector": "sobel",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.7497967606778813,
+    "contour_area_reduction": 0.8520441818360444,
+    "attack_success": true
+  },
+  "pedestrian-canny-contour": {
+    "source": "pedestrian",
+    "detector": "canny",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.7819277108433735,
+    "contour_area_reduction": 0.5792553191489361,
+    "attack_success": true
+  },
+  "pedestrian-laplacian-contour": {
+    "source": "pedestrian",
+    "detector": "laplacian",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.6868220338983051,
+    "contour_area_reduction": 0.8268831588172886,
+    "attack_success": true
+  },
+  "pedestrian-roberts-contour": {
+    "source": "pedestrian",
+    "detector": "roberts",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.744417610997585,
+    "contour_area_reduction": 0.8361871523612171,
+    "attack_success": true
+  },
+  "street_scene-sobel-gentle_pixels": {
+    "source": "street_scene",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": -6.992029086841001e-05,
+    "contour_area_reduction": -1.5429241498487936e-05,
+    "attack_success": false
+  },
+  "street_scene-canny-gentle_pixels": {
+    "source": "street_scene",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": 8.621432882145013e-05,
+    "contour_area_reduction": 0.0,
+    "attack_success": false
+  },
+  "street_scene-sobel-moderate_pixels": {
+    "source": "street_scene",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.006677387777933156,
+    "contour_area_reduction": -0.0007251743504289329,
+    "attack_success": false
+  },
+  "street_scene-canny-moderate_pixels": {
+    "source": "street_scene",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.008707647210966462,
+    "contour_area_reduction": 0.0,
+    "attack_success": false
+  },
+  "street_scene-sobel-aggressive_pixels": {
+    "source": "street_scene",
+    "detector": "sobel",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.022444413368759613,
+    "contour_area_reduction": -0.0027618342282293403,
+    "attack_success": false
+  },
+  "street_scene-canny-aggressive_pixels": {
+    "source": "street_scene",
+    "detector": "canny",
+    "attack_type": "pixel",
+    "edge_density_reduction": -0.04793516682472627,
+    "contour_area_reduction": -1.5644171779141105,
+    "attack_success": false
+  },
+  "street_scene-sobel-smart_edge": {
+    "source": "street_scene",
+    "detector": "sobel",
+    "attack_type": "edge_blur",
+    "edge_density_reduction": -0.11788561040413928,
+    "contour_area_reduction": 0.40211689193359257,
+    "attack_success": true
+  },
+  "street_scene-canny-smart_edge": {
+    "source": "street_scene",
+    "detector": "canny",
+    "attack_type": "edge_blur",
+    "edge_density_reduction": 0.9924993533925338,
+    "contour_area_reduction": 0.9887525562372188,
+    "attack_success": true
+  },
+  "street_scene-sobel-gradient": {
+    "source": "street_scene",
+    "detector": "sobel",
+    "attack_type": "gradient_reverse",
+    "edge_density_reduction": 0.0031813732345126557,
+    "contour_area_reduction": 0.02650743689440227,
+    "attack_success": false
+  },
+  "street_scene-canny-gradient": {
+    "source": "street_scene",
+    "detector": "canny",
+    "attack_type": "gradient_reverse",
+    "edge_density_reduction": -0.00655228899043021,
+    "contour_area_reduction": -0.2822085889570552,
+    "attack_success": false
+  },
+  "street_scene-sobel-contour": {
+    "source": "street_scene",
+    "detector": "sobel",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.7076283037337435,
+    "contour_area_reduction": 0.8415879775350243,
+    "attack_success": true
+  },
+  "street_scene-canny-contour": {
+    "source": "street_scene",
+    "detector": "canny",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.7232520044831451,
+    "contour_area_reduction": -0.83640081799591,
+    "attack_success": true
+  },
+  "street_scene-laplacian-contour": {
+    "source": "street_scene",
+    "detector": "laplacian",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.6234846684097932,
+    "contour_area_reduction": 0.6458782908933967,
+    "attack_success": true
+  },
+  "street_scene-roberts-contour": {
+    "source": "street_scene",
+    "detector": "roberts",
+    "attack_type": "contour_disrupt",
+    "edge_density_reduction": 0.7141725719049604,
+    "contour_area_reduction": 0.8415637860082305,
+    "attack_success": true
+  }
+}
