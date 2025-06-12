@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 class ASCIIBoxRenderer {
   private ctx: CanvasRenderingContext2D;
@@ -32,6 +33,7 @@ class ASCIIBoxRenderer {
     // Set font once
     this.ctx.font = `${this.charHeight}px Monaco, monospace`;
     this.ctx.textBaseline = "top";
+    this.ctx.fillStyle = "#000"; // Set text color to black
   }
 
   render(canvas: HTMLCanvasElement) {
@@ -67,8 +69,14 @@ class ASCIIBoxRenderer {
       }
     }
 
+    // Clear canvas with white background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Set text color to black for visibility on white background
+    ctx.fillStyle = "#000000";
+
     // Draw buffer to canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (let y = 0; y < rows; y++) {
       ctx.fillText(buffer[y].join(""), 0, y * charHeight);
     }
@@ -164,12 +172,40 @@ const AsciiBackground: React.FC = () => {
   }, [dims]);
 
   return (
-    <div className="fixed inset-0 bg-white">
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ imageRendering: "pixelated" }}
-      />
+    <div className="relative w-full h-screen overflow-hidden">
+      <div className="fixed inset-0 bg-white">
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full"
+          style={{ imageRendering: "pixelated" }}
+        />
+      </div>
+      <div className="absolute inset-0 bg-white/60" />
+      <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+        <div className="bg-white border border-gray-400 p-6 w-full max-w-2xl overflow-y-auto max-h-[90vh] shadow-lg">
+          <div className="space-y-4">
+            <h1 className="text-5xl font-bold text-black mb-4 font-mono mb-12">
+              investigating the edge
+            </h1>
+            <p className="text-black leading-relaxed text-lowercase font-mono">
+              an online lab where you can navigate through edge-detector
+              behaviors and uncover vulnerabilities in vision models
+            </p>
+            <div className="pt-4 font-mono">
+              <p className="text-sm text-black">
+                created by{" "}
+                <Link
+                  target="_blank"
+                  href="https://ethanpinedaa.dev"
+                  className="hover:underline underline-offset-2 text-black font-bold"
+                >
+                  ethan pineda
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
