@@ -7,8 +7,8 @@ const SimulationForm = () => {
   const [config, setConfig] = useState({
     imageSource: "pedestrian",
     edgeDetector: "sobel",
-    attackLevel: "moderate_pixels", // updated to match key in ATTACK_TYPES_BY_LEVEL
-    attackType: "pixel_perturbation", // updated default type
+    attackLevel: "moderate_pixels",
+    attackType: "pixel_perturbation",
   });
 
   const [currentImages, setCurrentImages] = useState<{
@@ -21,7 +21,6 @@ const SimulationForm = () => {
   const [history, setHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Map your Python naming conventions
   const IMAGE_SOURCE_MAP: Record<string, string> = {
     pedestrian: "pedestrian",
     stop_sign: "stop_sign",
@@ -59,7 +58,6 @@ const SimulationForm = () => {
     contour: { type: "contour_disrupt", displayName: "Contour Disruption" },
   };
 
-  // Build image paths based on your Python output structure
   const buildImagePaths = (source: string, detector: string, level: string) => {
     const baseName = `${source}-${detector}-${level}`;
     return {
@@ -70,7 +68,6 @@ const SimulationForm = () => {
     };
   };
 
-  // Load metadata from your generated JSON files
   const loadMetrics = async () => {
     setLoading(true);
     try {
@@ -84,7 +81,6 @@ const SimulationForm = () => {
       }
     } catch (error) {
       console.log("Could not load metrics, using placeholder data");
-      // Placeholder metrics if JSON not available
       setMetrics({
         edge_density_reduction: Math.random() * 0.5,
         contour_area_reduction: Math.random() * 0.4,
@@ -96,7 +92,6 @@ const SimulationForm = () => {
     setLoading(false);
   };
 
-  // Update images when config changes
   useEffect(() => {
     const paths = buildImagePaths(
       IMAGE_SOURCE_MAP[config.imageSource],
@@ -108,7 +103,6 @@ const SimulationForm = () => {
   }, [config]);
 
   const runExperiment = () => {
-    // Add to history
     const result = {
       config: { ...config },
       metrics: metrics || {},
@@ -117,7 +111,6 @@ const SimulationForm = () => {
     setHistory((prev) => [result, ...prev].slice(0, 10));
   };
 
-  // Check which detectors are available for each attack level
   const getAvailableDetectors = (level: string): string[] => {
     const attackInfo = ATTACK_TYPES_BY_LEVEL[level];
     if (!attackInfo) return ["sobel", "canny"];
@@ -131,7 +124,6 @@ const SimulationForm = () => {
 
   return (
     <div className="space-y-6">
-      {/* Configuration Panel */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-black border-b-2 border-black pb-2">
@@ -234,8 +226,6 @@ const SimulationForm = () => {
           </div>
         </div>
       </div>
-
-      {/* Action Buttons */}
       <div className="flex justify-center gap-4">
         <motion.button
           onClick={runExperiment}
@@ -246,8 +236,6 @@ const SimulationForm = () => {
           ▶ LOAD & ANALYZE
         </motion.button>
       </div>
-
-      {/* Results Display */}
       <AnimatePresence>
         {currentImages && (
           <motion.div
@@ -256,7 +244,6 @@ const SimulationForm = () => {
             exit={{ opacity: 0, y: -20 }}
             className="space-y-6"
           >
-            {/* Metrics Panel */}
             {metrics && (
               <div className="bg-black text-white p-6 border-2 border-black">
                 <h3 className="text-xl font-bold mb-4">
@@ -315,10 +302,7 @@ const SimulationForm = () => {
                 )}
               </div>
             )}
-
-            {/* Image Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {/* Original */}
               <motion.div
                 className="border-2 border-black p-3 bg-white"
                 whileHover={{ scale: 1.02 }}
@@ -337,8 +321,6 @@ const SimulationForm = () => {
                   }}
                 />
               </motion.div>
-
-              {/* Attacked */}
               <motion.div
                 className="border-2 border-black p-3 bg-white"
                 whileHover={{ scale: 1.02 }}
@@ -357,8 +339,6 @@ const SimulationForm = () => {
                   }}
                 />
               </motion.div>
-
-              {/* Edges (Clean) */}
               <motion.div
                 className="border-2 border-black p-3 bg-white"
                 whileHover={{ scale: 1.02 }}
@@ -377,8 +357,6 @@ const SimulationForm = () => {
                   }}
                 />
               </motion.div>
-
-              {/* Edges (Attacked) */}
               <motion.div
                 className="border-2 border-black p-3 bg-white"
                 whileHover={{ scale: 1.02 }}
@@ -398,8 +376,6 @@ const SimulationForm = () => {
                 />
               </motion.div>
             </div>
-
-            {/* Configuration Summary */}
             <div className="border-2 border-black p-4 bg-gray-50">
               <h4 className="font-bold mb-3 text-black">
                 Current Configuration:
