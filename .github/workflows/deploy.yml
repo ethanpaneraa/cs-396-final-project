@@ -47,9 +47,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build with static export (ignore TS errors)
-        run: |
-          pnpm run build || echo "Ignoring TS errors for deploy"
+      - name: Build with static export
+        run: pnpm run build
 
       - name: Add .nojekyll file
         run: touch ./out/.nojekyll

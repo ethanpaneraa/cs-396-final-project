@@ -10,6 +10,13 @@ interface Metrics {
   fragmentation_increase?: number;
 }
 
+interface ImagePaths {
+  clean: string;
+  perturbed: string;
+  edgesClean: string;
+  edgesPerturbed: string;
+}
+
 const SimulationForm = () => {
   const [dataSource, setDataSource] = useState("progressive");
   type ImageSourceKey = keyof typeof IMAGE_SOURCE_MAP;
@@ -38,7 +45,7 @@ const SimulationForm = () => {
     resolution: 256,
   });
 
-  const [currentImages, setCurrentImages] = useState(null);
+  const [currentImages, setCurrentImages] = useState<ImagePaths | null>(null);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [loading, setLoading] = useState(false);
   // const [availableConfigs, setAvailableConfigs] = useState([]);
@@ -242,7 +249,7 @@ const SimulationForm = () => {
   };
 
   // Build image paths based on data source
-  const buildImagePaths = () => {
+  const buildImagePaths = (): ImagePaths => {
     const source = IMAGE_SOURCE_MAP[config.imageSource];
 
     if (dataSource === "progressive") {
@@ -270,18 +277,7 @@ const SimulationForm = () => {
         edgesPerturbed: `/images/canny_targeted_attacks/${baseName}_edges_attacked.png`,
       };
     } else if (dataSource === "effective") {
-      // For effective simulations, the source name is embedded in the sim_id
-      // The Python script generates files for all sources with the same config
-      // const sourceMap = {
-      //   pedestrian: "ped",
-      //   stop_sign: "stop",
-      //   street_scene: "street",
-      // };
-      // const mappedSource = sourceMap[config.imageSource] || config.imageSource;
       const simId = `sim_${config.edgeDetector}_${config.attackType}_${config.attackStrength}`;
-
-      // Note: The effective simulation script doesn't include source in filename
-      // It processes all images with the same configuration
       return {
         clean: `/images/effective_simulation_results/${simId}_original.png`,
         perturbed: `/images/effective_simulation_results/${simId}_attacked.png`,
@@ -289,6 +285,14 @@ const SimulationForm = () => {
         edgesPerturbed: `/images/effective_simulation_results/${simId}_edges_attacked.png`,
       };
     }
+
+    // Fallback (never hit if all cases are handled)
+    return {
+      clean: "/images/placeholder.png",
+      perturbed: "/images/placeholder.png",
+      edgesClean: "/images/placeholder.png",
+      edgesPerturbed: "/images/placeholder.png",
+    };
   };
 
   // Load metadata based on data source
@@ -417,7 +421,10 @@ const SimulationForm = () => {
                 <select
                   value={config.imageSource}
                   onChange={(e) =>
-                    setConfig({ ...config, imageSource: e.target.value })
+                    setConfig({
+                      ...config,
+                      imageSource: e.target.value as ImageSourceKey,
+                    })
                   }
                   className="w-full px-3 py-2 border-2 border-black bg-white text-black font-mono"
                 >
@@ -679,26 +686,27 @@ const SimulationForm = () => {
                   </div>
                 </div>
 
-                {metrics.edge_fraction_clean && (
-                  <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-700">
-                    <div>
-                      <span className="text-gray-400 text-xs">
-                        Clean Edge Fraction:
-                      </span>
-                      <div className="text-lg font-mono">
-                        {metrics.edge_fraction_clean.toFixed(3)}
+                {typeof metrics.edge_fraction_clean === "number" &&
+                  typeof metrics.edge_fraction_perturbed === "number" && (
+                    <div className="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-700">
+                      <div>
+                        <span className="text-gray-400 text-xs">
+                          Clean Edge Fraction:
+                        </span>
+                        <div className="text-lg font-mono">
+                          {metrics.edge_fraction_clean.toFixed(3)}
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-gray-400 text-xs">
+                          Perturbed Edge Fraction:
+                        </span>
+                        <div className="text-lg font-mono">
+                          {metrics.edge_fraction_perturbed.toFixed(3)}
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <span className="text-gray-400 text-xs">
-                        Perturbed Edge Fraction:
-                      </span>
-                      <div className="text-lg font-mono">
-                        {metrics.edge_fraction_perturbed.toFixed(3)}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 {metrics.fragmentation_increase !== undefined && (
                   <div className="mt-4 pt-4 border-t border-gray-700">
@@ -729,8 +737,9 @@ const SimulationForm = () => {
                   alt="Original"
                   className="w-full h-auto border border-gray-300"
                   onError={(e) => {
-                    e.target.src = "/images/placeholder.png";
-                    e.target.onerror = null;
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/images/placeholder.png";
+                    target.onerror = null;
                   }}
                 />
               </motion.div>
@@ -745,8 +754,9 @@ const SimulationForm = () => {
                   alt="Attacked"
                   className="w-full h-auto border border-gray-300"
                   onError={(e) => {
-                    e.target.src = "/images/placeholder.png";
-                    e.target.onerror = null;
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/images/placeholder.png";
+                    target.onerror = null;
                   }}
                 />
               </motion.div>
@@ -763,8 +773,9 @@ const SimulationForm = () => {
                   alt="Clean Edges"
                   className="w-full h-auto border border-gray-300"
                   onError={(e) => {
-                    e.target.src = "/images/placeholder.png";
-                    e.target.onerror = null;
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/images/placeholder.png";
+                    target.onerror = null;
                   }}
                 />
               </motion.div>
@@ -781,8 +792,9 @@ const SimulationForm = () => {
                   alt="Attacked Edges"
                   className="w-full h-auto border border-gray-300"
                   onError={(e) => {
-                    e.target.src = "/images/placeholder.png";
-                    e.target.onerror = null;
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/images/placeholder.png";
+                    target.onerror = null;
                   }}
                 />
               </motion.div>
