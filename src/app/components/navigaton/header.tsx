@@ -64,7 +64,7 @@ export default function Header() {
           className={cn(
             "grid grid-cols-3 items-center",
             "bg-white border-2 border-black shadow-lg rounded-none md:rounded-xl",
-            "h-16 md:h-20 px-4"
+            "h-16 md:h-16 px-4"
           )}
         >
           <Link href="/" className="flex items-center gap-2 justify-self-start">

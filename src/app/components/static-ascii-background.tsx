@@ -38,7 +38,7 @@ const StaticAsciiBackground: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="w-full h-full"
+      className="fixed inset-0 w-full h-full -z-10"
       style={{ imageRendering: "pixelated" }}
     />
   );
