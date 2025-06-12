@@ -41,16 +41,17 @@ const LandingSections: React.FC = () => (
         </p>
         <p className="leading-relaxed mb-4">
           In the broader context of AI safety, edge-detection serves as one of
-          many gatekeepers in visual pipelines—when it's compromised, downstream
-          algorithms for classification, tracking, or scene reconstruction
-          inherit those flaws. Consider medical systems that rely on edge maps
-          to segment tumors or monitor surgical instruments: an attacker could
-          introduce imperceptible noise patterns that hide or highlight regions
-          incorrectly, risking misdiagnosis or surgical errors. Our interactive
-          demo bridges this gap between theoretical vulnerability studies and
-          practical scenarios, emphasizing why industry practitioners,
-          regulators, and end users must collaborate to validate model
-          robustness before deployment in safety-critical environments.
+          many gatekeepers in visual pipelines—when it&apos;s compromised,
+          downstream algorithms for classification, tracking, or scene
+          reconstruction inherit those flaws. Consider medical systems that rely
+          on edge maps to segment tumors or monitor surgical instruments: an
+          attacker could introduce imperceptible noise patterns that hide or
+          highlight regions incorrectly, risking misdiagnosis or surgical
+          errors. Our interactive demo bridges this gap between theoretical
+          vulnerability studies and practical scenarios, emphasizing why
+          industry practitioners, regulators, and end users must collaborate to
+          validate model robustness before deployment in safety-critical
+          environments.
         </p>
         <p className="leading-relaxed">
           Our goal is not to alarm but to empower: by experimenting with
