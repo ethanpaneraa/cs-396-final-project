@@ -44,7 +44,6 @@ export default function SimulationPage() {
                 &gt; WARNING: Test results may reveal critical vulnerabilities.
               </p>
             </div>
-
             <SimulationForm />
           </div>
         </motion.div>
@@ -52,4 +51,3 @@ export default function SimulationPage() {
     </div>
   );
 }
-2;

@@ -38,7 +38,8 @@ export default function ImageGallery({ images }: Props) {
             className="w-full h-auto border border-gray-300"
             onError={(e) => {
               (e.target as HTMLImageElement).src = "/images/placeholder.png";
-              (e.target as any).onerror = null;
+
+              (e.target as HTMLImageElement).onerror = null;
             }}
           />
         </motion.div>

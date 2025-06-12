@@ -3,22 +3,26 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const SimulationForm = () => {
   const [dataSource, setDataSource] = useState("progressive"); // 'progressive', 'targeted', 'canny_targeted', 'effective'
-  const [config, setConfig] = useState({
-    // Common
+  type ImageSourceKey = keyof typeof IMAGE_SOURCE_MAP;
+
+  const [config, setConfig] = useState<{
+    imageSource: ImageSourceKey;
+    edgeDetector: string;
+    attackLevel: string;
+    attackMethod: string;
+    cannyConfig: string;
+    cannyAttackMethod: string;
+    attackType: string;
+    attackStrength: string;
+    lightingMode: string;
+    resolution: number;
+  }>({
     imageSource: "pedestrian",
     edgeDetector: "sobel",
-
-    // Progressive attacks specific
     attackLevel: "moderate_pixels",
-
-    // Targeted attacks specific
     attackMethod: "edge_blur",
-
-    // Canny targeted specific
     cannyConfig: "standard",
     cannyAttackMethod: "hysteresis_threshold",
-
-    // Effective simulation specific
     attackType: "contour_disrupt",
     attackStrength: "moderate",
     lightingMode: "normal",
@@ -28,7 +32,7 @@ const SimulationForm = () => {
   const [currentImages, setCurrentImages] = useState(null);
   const [metrics, setMetrics] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [availableConfigs, setAvailableConfigs] = useState([]);
+  // const [availableConfigs, setAvailableConfigs] = useState([]);
 
   // Data source configurations
   const DATA_SOURCES = {
@@ -133,7 +137,61 @@ const SimulationForm = () => {
     overexposed: "Overexposed",
   };
 
-  // Available combinations for effective simulations (from your Python script)
+  // --- add right after your LIGHTING_MODES const ---
+  // --- richer explanations ---
+  const EXPLANATIONS = {
+    progressive: {
+      gentle_pixels: `
+      Injects a small amount of random noise (≈5–10% pixel intensity variation)
+      across the image. Use this to see how even tiny perturbations can cause
+      edge maps to flicker or drop weak edges. In practice, this mimics
+      sensor noise or mild JPEG artifacts.`,
+      moderate_pixels: `
+      Applies medium-level pixel noise (≈20–30% intensity shifts). You’ll see
+      clear gaps in thin edges and some edge misalignments. This resembles
+      lighting flicker or low-grade camera interference.`,
+      aggressive_pixels: `
+      Blasts heavy noise (≈50%+ variation) everywhere. Edge detectors will
+      miss large sections, and false edges pop up in textured regions.
+      Think of extreme weather fog or deliberate adversarial pixel jamming.`,
+      smart_edge: `
+      Blurs only around the strongest gradients—like smoothing the borders of a
+      stop sign without touching the flat regions. This tests an attack that
+      targets edge operators directly, leaving the rest of the image intact.`,
+      gradient: `
+      Locally flips the sign of the gradient field under each pixel. Sobel and
+      similar filters see edges all reversed—peaks become troughs—so boundary
+      orientation is catastrophically wrong.`,
+      contour: `
+      Selectively fractures the largest connected contours into fragments.
+      Good for testing whether your system can still link broken edges under
+      noise, as in adversarial occlusion attacks.`,
+    },
+
+    targeted: {
+      edge_blur: `
+      Identifies your top Sobel edges, then applies directional blur only
+      along those lines. Edges become soft and indistinct, simulating defocus
+      or strategic smoothing to slip past gradient thresholds.`,
+      gradient_reverse: `
+      Reverses the sign of pixel gradients in Sobel’s strongest regions.
+      This attack creates “anti-edges” that look like negatives, tricking
+      detectors into highlighting wrong structures.`,
+      contour_disrupt: `
+      Erodes the outlines of the largest detected contours by removing pixels
+      at random intervals. Useful for breaking closed shapes like road signs
+      without touching the entire image.`,
+    },
+
+    canny_targeted: {
+      // We'll generate these three sentences inline below
+    },
+
+    effective: {
+      // We'll compose on the fly
+    },
+  };
+
   const AVAILABLE_EFFECTIVE_CONFIGS = [
     {
       detector: "sobel",
@@ -161,7 +219,11 @@ const SimulationForm = () => {
     },
   ];
 
-  const isEffectiveConfigAvailable = (detector, attack, strength) => {
+  const isEffectiveConfigAvailable = (
+    detector: string,
+    attack: string,
+    strength: string
+  ): boolean => {
     return AVAILABLE_EFFECTIVE_CONFIGS.some(
       (cfg) =>
         cfg.detector === detector &&
@@ -201,12 +263,12 @@ const SimulationForm = () => {
     } else if (dataSource === "effective") {
       // For effective simulations, the source name is embedded in the sim_id
       // The Python script generates files for all sources with the same config
-      const sourceMap = {
-        pedestrian: "ped",
-        stop_sign: "stop",
-        street_scene: "street",
-      };
-      const mappedSource = sourceMap[config.imageSource] || config.imageSource;
+      // const sourceMap = {
+      //   pedestrian: "ped",
+      //   stop_sign: "stop",
+      //   street_scene: "street",
+      // };
+      // const mappedSource = sourceMap[config.imageSource] || config.imageSource;
       const simId = `sim_${config.edgeDetector}_${config.attackType}_${config.attackStrength}`;
 
       // Note: The effective simulation script doesn't include source in filename
@@ -260,7 +322,7 @@ const SimulationForm = () => {
         });
       }
     } catch (error) {
-      console.log("Could not load metrics, using placeholder data");
+      console.log("Could not load metrics, using placeholder data", error);
       setMetrics({
         edge_density_reduction: Math.random() * 0.5,
         contour_area_reduction: Math.random() * 0.4,
@@ -340,7 +402,7 @@ const SimulationForm = () => {
               </h3>
 
               <div>
-                <label className="block text-sm font-bold mb-2">
+                <label className="block text-sm font-bold mb-2 text-black">
                   Source Image:
                 </label>
                 <select
@@ -357,7 +419,7 @@ const SimulationForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-bold mb-2">
+                <label className="block text-sm font-bold mb-2 text-black">
                   Edge Detection Algorithm:
                 </label>
                 <select
@@ -388,7 +450,7 @@ const SimulationForm = () => {
                 {/* Canny Targeted Attacks */}
                 {dataSource === "canny_targeted" && (
                   <div>
-                    <label className="block text-sm font-bold mb-2">
+                    <label className="block text-sm font-bold mb-2 text-black mt-2">
                       Canny Configuration:
                     </label>
                     <select
@@ -405,7 +467,7 @@ const SimulationForm = () => {
                       ))}
                     </select>
 
-                    <label className="block text-sm font-bold mb-2">
+                    <label className="block text-sm font-bold mb-2 text-black">
                       Attack Method:
                     </label>
                     <select
@@ -429,29 +491,6 @@ const SimulationForm = () => {
                   </div>
                 )}
               </div>
-
-              {/* Resolution selector for effective simulations */}
-              {/* {dataSource === "effective" && (
-            <div>
-              <label className="block text-sm font-bold mb-2">
-                Resolution:
-              </label>
-              <input
-                type="range"
-                min="128"
-                max="512"
-                step="64"
-                value={config.resolution}
-                onChange={(e) =>
-                  setConfig({ ...config, resolution: parseInt(e.target.value) })
-                }
-                className="w-full"
-              />
-              <span className="text-xs">
-                {config.resolution}x{config.resolution}px
-              </span>
-            </div>
-          )} */}
             </div>
           </>
         )}
@@ -465,12 +504,12 @@ const SimulationForm = () => {
           {/* Progressive Attacks */}
           {dataSource === "progressive" && (
             <div>
-              <label className="block text-sm font-bold mb-2">
+              <label className="block text-sm font-bold mb-2 text-black">
                 Attack Level:
               </label>
               <div className="space-y-2">
                 {Object.entries(ATTACK_LEVELS).map(([level, info]) => (
-                  <label key={level} className="flex items-start">
+                  <label key={level} className="flex items-start text-black">
                     <input
                       type="radio"
                       name="attackLevel"
@@ -504,7 +543,7 @@ const SimulationForm = () => {
           {/* Targeted Attacks */}
           {dataSource === "targeted" && (
             <div>
-              <label className="block text-sm font-bold mb-2">
+              <label className="block text-sm font-bold mb-2 text-black">
                 Attack Method:
               </label>
               <select
@@ -558,74 +597,6 @@ const SimulationForm = () => {
                   ))}
                 </select>
               </div>
-              {/*
-              <div>
-                <label className="block text-sm font-bold mb-2">
-                  Attack Type:
-                </label>
-                <select
-                  value={config.attackType}
-                  onChange={(e) =>
-                    setConfig({ ...config, attackType: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border-2 border-black bg-white text-black font-mono"
-                >
-                  {Object.entries(ATTACK_TYPES).map(([key, desc]) => (
-                    <option key={key} value={key}>
-                      {desc}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-              {/*
-              <div>
-                <label className="block text-sm font-bold mb-2">
-                  Attack Strength:
-                </label>
-                <div className="space-y-2">
-                  {Object.entries(ATTACK_STRENGTHS).map(([key, desc]) => (
-                    <label key={key} className="flex items-center">
-                      <input
-                        type="radio"
-                        name="attackStrength"
-                        value={key}
-                        checked={config.attackStrength === key}
-                        onChange={(e) =>
-                          setConfig({
-                            ...config,
-                            attackStrength: e.target.value,
-                          })
-                        }
-                        className="mr-2"
-                      />
-                      <span className="text-sm">
-                        <strong>{key.toUpperCase()}</strong> - {desc}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </div> */}
-
-              {/* <div>
-                <label className="block text-sm font-bold mb-2">
-                  Lighting Mode:
-                </label>
-                <select
-                  value={config.lightingMode}
-                  onChange={(e) =>
-                    setConfig({ ...config, lightingMode: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border-2 border-black bg-white text-black font-mono"
-                >
-                  {Object.entries(LIGHTING_MODES).map(([key, desc]) => (
-                    <option key={key} value={key}>
-                      {desc}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-
-              {/* Configuration availability warning */}
               {!isEffectiveConfigAvailable(
                 config.edgeDetector,
                 config.attackType,
@@ -810,27 +781,31 @@ const SimulationForm = () => {
 
             {/* Configuration Summary */}
             <div className="border-2 border-black p-4 bg-gray-50">
-              <h4 className="font-bold mb-3">Current Configuration:</h4>
+              <h4 className="font-bold mb-3 text-black">
+                Current Configuration:
+              </h4>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm font-mono">
                 <div>
                   <span className="text-gray-600">Source:</span>
-                  <div className="font-bold">
+                  <div className="font-bold text-black">
                     {DATA_SOURCES[dataSource].name}
                   </div>
                 </div>
                 <div>
                   <span className="text-gray-600">Image:</span>
-                  <div className="font-bold">{config.imageSource}</div>
+                  <div className="font-bold text-black">
+                    {config.imageSource}
+                  </div>
                 </div>
                 <div>
                   <span className="text-gray-600">Detector:</span>
-                  <div className="font-bold">
+                  <div className="font-bold text-black">
                     {config.edgeDetector.toUpperCase()}
                   </div>
                 </div>
                 <div>
                   <span className="text-gray-600">Attack:</span>
-                  <div className="font-bold">
+                  <div className="font-bold text-black">
                     {dataSource === "progressive" &&
                       ATTACK_LEVELS[config.attackLevel]?.type}
                     {dataSource === "targeted" && config.attackMethod}
@@ -861,27 +836,72 @@ const SimulationForm = () => {
       )}
 
       {/* Instructions */}
+      {/* Configuration Explanation */}
       <div className="mt-6 p-4 bg-yellow-50 border-2 border-yellow-600">
         <h4 className="font-bold text-yellow-800 mb-2">
-          ⚠️ SECURITY TESTING PROTOCOL
+          What you picked and why it matters
         </h4>
         <div className="text-sm text-yellow-700 space-y-2">
-          <p>
-            <strong>Progressive Attacks:</strong> Test incremental attack
-            strength from gentle to aggressive perturbations.
-          </p>
-          <p>
-            <strong>Targeted Attacks:</strong> Apply specific attack methods
-            optimized for maximum edge disruption.
-          </p>
-          <p>
-            <strong>Effective Simulations:</strong> Full simulation environment
-            with lighting conditions and multiple attack vectors.
-          </p>
-          <p className="mt-3 font-semibold">
-            Document all successful attacks for the DriveGuard engineering team
-            to implement defensive measures.
-          </p>
+          {dataSource === "progressive" && (
+            <p>
+              <strong>{ATTACK_LEVELS[config.attackLevel].displayName}:</strong>{" "}
+              {EXPLANATIONS.progressive[config.attackLevel]}
+            </p>
+          )}
+
+          {dataSource === "targeted" && (
+            <p>
+              <strong>{ATTACK_METHODS[config.attackMethod]}:</strong>{" "}
+              {EXPLANATIONS.targeted[config.attackMethod]}
+            </p>
+          )}
+
+          {dataSource === "canny_targeted" && (
+            <>
+              <p>
+                <strong>Canny thresholds:</strong>{" "}
+                {CANNY_CONFIGS[config.cannyConfig]}. This sets the low/high
+                hysteresis levels for edge linking.
+              </p>
+              <p>
+                <strong>
+                  {CANNY_ATTACK_METHODS[config.cannyAttackMethod]}:
+                </strong>{" "}
+                {/* a one-liner for each attack: */}
+                {
+                  {
+                    hysteresis_threshold:
+                      "Injects noise specifically between the low and high thresholds to break connectivity.",
+                    gradient_smoothing:
+                      "Smooths gradients in edge regions to reduce edge strength selectively.",
+                    non_max_suppression:
+                      "Adds competing gradients so that the thinning step misfires.",
+                    connectivity_breaking:
+                      "Randomly gaps edges to stop Canny’s hysteresis from linking them.",
+                    multi_scale:
+                      "Applies noise at multiple scales to confuse thresholds at every level.",
+                  }[config.cannyAttackMethod]
+                }
+              </p>
+            </>
+          )}
+
+          {dataSource === "effective" && (
+            <>
+              <p>
+                <strong>{ATTACK_TYPES[config.attackType]}:</strong> under{" "}
+                {ATTACK_STRENGTHS[config.attackStrength]} strength — this shows
+                how {ATTACK_TYPES[config.attackType].toLowerCase()} behaves when
+                it’s {ATTACK_STRENGTHS[config.attackStrength].toLowerCase()}.
+              </p>
+              <p>
+                <strong>Lighting mode:</strong>{" "}
+                {LIGHTING_MODES[config.lightingMode]}. This simulates how
+                real-world lighting (e.g. low light or high contrast) can
+                amplify or dampen your chosen attack.
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>
