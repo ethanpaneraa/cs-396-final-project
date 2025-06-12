@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -39,7 +41,7 @@ export const QuizImage: FC<Props> = ({ onCorrect }) => {
           isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }
         }
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="bg-white border-4 border-black p-8 shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto"
+        className="bg-white border-4 border-black p-8 shadow-2xl w-full max-w-3xl mx-4 max-h-[90vh] overflow-y-auto"
         style={{ willChange: "transform, opacity" }}
       >
         <motion.div
@@ -59,29 +61,27 @@ export const QuizImage: FC<Props> = ({ onCorrect }) => {
           transition={{ delay: 0.5, duration: 0.5 }}
           className="text-center mb-6"
         >
-          <div className="border-2 border-black p-2 mb-3 bg-white">
+          <div className="border-2 border-black p-2 mb-4 bg-white inline-block">
             <img
               src="/images/source_images/ped.jpg"
               alt="Pedestrian crossing"
-              className="mx-auto w-64 border border-black"
+              className="mx-auto w-96 border border-black"
             />
           </div>
-          <motion.pre
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="text-sm font-bold leading-none text-black"
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="text-2xl font-bold text-black mb-2"
           >
-            {`╔═══════════════════════════════╗
-║    CLASSIFY THIS IMAGE:       ║
-╚═══════════════════════════════╝`}
-          </motion.pre>
+            What do you see in this picture?
+          </motion.h2>
         </motion.div>
 
         <motion.ul
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
+          transition={{ delay: 0.8, duration: 0.5 }}
           className="space-y-3 mb-6"
         >
           {options.map((opt, index) => (
@@ -89,7 +89,7 @@ export const QuizImage: FC<Props> = ({ onCorrect }) => {
               key={opt.label}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.8 + index * 0.1 }}
+              transition={{ delay: 0.9 + index * 0.1 }}
             >
               <motion.button
                 onClick={() => handle(opt)}
@@ -100,13 +100,14 @@ export const QuizImage: FC<Props> = ({ onCorrect }) => {
                   borderColor: "#6b7280",
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full px-4 py-3 border-2 border-black bg-black text-white hover:bg-gray-500 hover:border-gray-500 transition-all duration-200 text-left font-bold text-base"
+                className="w-full px-4 py-3 border-2 border-black bg-black text-white hover:bg-gray-500 hover:border-gray-500 transition-all duration-200 text-left font-bold text-lg"
               >
                 [ {String.fromCharCode(65 + index)} ] {opt.label}
               </motion.button>
             </motion.li>
           ))}
         </motion.ul>
+
         <AnimatePresence>
           {feedback && (
             <motion.div
