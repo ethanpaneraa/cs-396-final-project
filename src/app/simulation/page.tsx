@@ -10,7 +10,7 @@ import CongratsModal from "@/app/components/simulation/congrats-modal";
 import SimulationForm from "@/app/components/simulation/simulation-form";
 
 export default function SimulationPage() {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(0);
 
   return (
     <div className="relative min-h-screen overflow-hidden">
